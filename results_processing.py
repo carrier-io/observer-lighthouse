@@ -29,7 +29,7 @@ try:
             result = {
                 "requests": 1,
                 "domains": 1,
-                "total": json_data['audits']['metrics']['numericValue'],
+                "total": json_data['audits']['metrics']['details']['items'][0]['observedLoad'],
                 "speed_index": json_data['audits']['metrics']['details']['items'][0]['speedIndex'],
                 "time_to_first_byte": int(json_data['audits']['server-response-time']['numericValue']),
                 "time_to_first_paint": json_data['audits']['metrics']['details']['items'][0]['observedFirstPaint'],
