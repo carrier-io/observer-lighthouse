@@ -4,6 +4,7 @@ import requests
 from json import loads
 from datetime import datetime
 import pytz
+import sys
 
 PROJECT_ID = environ.get('GALLOPER_PROJECT_ID')
 URL = environ.get('GALLOPER_URL')
@@ -88,6 +89,29 @@ try:
     except Exception:
         print(format_exc())
 
+    # Email notification
+    if "email" in sys.argv[2].split(";"):
+        secrets_url = f"{URL}/api/v1/secrets/{PROJECT_ID}/"
+        try:
+            email_notification_id = requests.get(secrets_url + "email_notification_id",
+                                                 headers={'Authorization': f'bearer {TOKEN}',
+                                                          'Content-type': 'application/json'}
+                                                 ).json()["secret"]
+        except:
+            email_notification_id = ""
+
+        if email_notification_id:
+            task_url = f"{URL}/api/v1/task/{PROJECT_ID}/{email_notification_id}"
+
+            event = {
+                "notification_type": "ui",
+                "test_id": sys.argv[1],
+                "report_id": REPORT_ID
+            }
+
+            res = requests.post(task_url, json=event, headers={'Authorization': f'bearer {TOKEN}',
+                                                               'Content-type': 'application/json'})
+            print(f"Email notification {res.text}")
 
 except Exception:
     print(format_exc())
