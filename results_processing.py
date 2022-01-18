@@ -49,7 +49,7 @@ try:
     all_results = {"total": [], "speed_index": [], "time_to_first_byte": [], "time_to_first_paint": [],
                    "dom_content_loading": [], "dom_processing": [], "first_contentful_paint": [],
                    "largest_contentful_paint": [], "cumulative_layout_shift": [], "total_blocking_time": [],
-                   "first_visual_change": [], "last_visual_change": []}
+                   "first_visual_change": [], "last_visual_change": [], "time_to_interactive": []}
 
     # Read and process each page results json
     for each in manifest:
@@ -73,7 +73,8 @@ try:
                 "cumulative_layout_shift": round(float(json_data['audits']['metrics']['details']['items'][0]['cumulativeLayoutShift']), 3),
                 "total_blocking_time": json_data['audits']['metrics']['details']['items'][0]['totalBlockingTime'],
                 "first_visual_change": json_data['audits']['metrics']['details']['items'][0]['observedFirstVisualChange'],
-                "last_visual_change": json_data['audits']['metrics']['details']['items'][0]['observedLastVisualChange']
+                "last_visual_change": json_data['audits']['metrics']['details']['items'][0]['observedLastVisualChange'],
+                "time_to_interactive": json_data['audits']['metrics']['details']['items'][0]['interactive']
             }
 
             # Add page results to the summary dict
